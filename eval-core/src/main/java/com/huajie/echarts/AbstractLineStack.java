@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author xiewenfeng 封装后台echarts 图表数据组合 LineSimple折线图
+ * @author xiewenfeng
+ * 封装后台echarts
+ * 图表数据组合 LineSimple折线图
  */
 public abstract class AbstractLineStack extends BsaeEchartsBean<LineStack> {
 

@@ -24,8 +24,7 @@ public abstract class AbstractPieSimple extends BsaeEchartsBean<PieSimple> {
 
     public PieSimple initEchartsData() {
         PieSimple pieSimple = new PieSimple();
-        List<ExtMapData<String, String>> serieDataList = ListExtMapData();
-        pieSimple.setSeriesData(serieDataList);
+        pieSimple.setSeriesData(ListExtMapData());
         return pieSimple;
     }
 
