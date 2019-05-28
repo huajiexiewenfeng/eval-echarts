@@ -1,7 +1,7 @@
 # eval-echarts
 基于echarts前后端封装 <br>
-springboot2.x+jquery1.11.x+echarts3.x
-附demo
+springboot2.x+jquery1.11.x+echarts3.x<br>
+附demo 可以直接在项目中使用
 
 Introduction
 ====
@@ -25,10 +25,11 @@ Features
 环境
 ----
 jdk8 <br>
-springboot2.0 <br>
+springboot2.x <br>
 jquery1.11x <br>
 echarts3.x
 
 使用方式
 ----
+后面会写详细的使用博客，如何扩展，如何使用
 
