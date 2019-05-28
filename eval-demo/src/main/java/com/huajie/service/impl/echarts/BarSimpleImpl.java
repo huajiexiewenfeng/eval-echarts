@@ -4,6 +4,7 @@ import com.huajie.echarts.AbstractBarSimple;
 import com.huajie.entity.ExtMapData;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,13 @@ public class BarSimpleImpl extends AbstractBarSimple {
 
     @Override
     protected List<ExtMapData<String, String>> ListXYAxis() {
-        return null;
+        List<ExtMapData<String, String>> list = new ArrayList();
+        list.add(new ExtMapData("直接访问", "335"));
+        list.add(new ExtMapData("邮件营销", "310"));
+        list.add(new ExtMapData("联盟广告", "234"));
+        list.add(new ExtMapData("视频广告", "135"));
+        list.add(new ExtMapData("搜索引擎", "1548"));
+        return list;
     }
 
     @Override

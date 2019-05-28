@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>首页</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/toastr.js/2.0.1/css/toastr.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+</head>
+<style>
+
+
+</style>
+<body>
+<aside class="sidebar">
+    <h1><a href="/">eval-echarts</a></h1>
+    <div class="sidebar-nav">
+        <ul>
+            <li>指南
+                <ul>
+                    <li><a href="#/">介绍</a></li>
+                    <!--<li><a href="#/start">开始使用</a></li>-->
+                    <!--<li><a href="#/props">图表属性</a></li>-->
+                    <!--<li><a href="#/data">数据</a></li>-->
+                </ul>
+            </li>
+            <li>图表
+                <ul class="sub-menu">
+                    <li class="active"><a href="javascript:openUrl('/report/echarts/line')">折线图</a></li>
+                    <li><a href="javascript:openUrl('/report/echarts/bar')">柱状图</a></li>
+                    <li><a href="#/bar">条形图</a></li>
+                    <li><a href="javascript:openUrl('/report/echarts/pie')">饼图</a></li>
+                    <li><a href="#/ring">环图</a></li>
+                    <li><a href="#/waterfall">瀑布图</a></li>
+                    <li><a href="#/funnel">漏斗图</a></li>
+                    <li><a href="#/radar">雷达图</a></li>
+                    <li><a href="#/map">地图</a></li>
+                    <li><a href="#/sankey">桑基图</a></li>
+                    <li><a href="#/heatmap">热力图</a></li>
+                    <li><a href="#/scatter">散点图</a></li>
+                    <li><a href="#/candle">K线图</a></li>
+                    <li><a href="#/gauge">仪表盘</a></li>
+                    <li><a href="#/tree">树图</a></li>
+                    <li><a href="#/liquidfill">水球图</a></li>
+                    <li><a href="#/wordcloud">词云图</a></li>
+                </ul>
+            </li>
+            <!--<li>其他-->
+                <!--<ul>-->
+                    <!--<li><a href="#/event">事件监听</a></li>-->
+                    <!--<li><a href="#/toggle">图表切换</a></li>-->
+                    <!--<li><a href="#/bmap">百度/高德地图</a></li>-->
+                    <!--<li><a href="#/props-demo1">属性配置示例(1)</a></li>-->
+                    <!--<li><a href="#/props-demo2">属性配置示例(2)</a></li>-->
+                    <!--<li><a href="#/skill-demo">常见问题示例</a></li>-->
+                <!--</ul>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</aside>
+
+<section class="content">
+    <iframe src="" id="mainIframe" style="height: 100%;width: 100%;" frameborder="false">
+
+
+    </iframe>
+
+</section>
+<script src="https://cdn.bootcss.com/toastr.js/2.0.1/js/toastr.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript">
+    function openUrl(url){
+        $('#mainIframe').attr('src',url);
+    }
+    $(document).ready(function () {
+        $('.sub-menu > li ').on('click', function () {
+            $('.sub-menu > li ').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>
+</body>
+</html>
