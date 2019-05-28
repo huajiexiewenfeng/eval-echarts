@@ -142,7 +142,7 @@ EchartsTool.prototype = (function () {
                     data: legendData     //数组
                 },
                 series: [
-                    {
+                    {   name:conf['seriesName']||'',
                         type: 'pie',
                         radius: conf['seriesRadius'] || '35%',//series的radius
                         center: ['50%', '50%'],
