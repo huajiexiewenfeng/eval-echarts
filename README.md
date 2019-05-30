@@ -33,7 +33,7 @@ echarts3.x
 
 使用方式
 ----
-![CSDN博客](https://blog.csdn.net/xiewenfeng520/article/details/90704526)
+[CSDN博客](https://blog.csdn.net/xiewenfeng520/article/details/90704526)
 后面会持续完善博客，如何扩展代码，如何使用
 
 ![首页](https://github.com/huajiexiewenfeng/eval-echarts/blob/master/img/index.png)
