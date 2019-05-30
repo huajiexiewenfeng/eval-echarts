@@ -18,17 +18,9 @@ import java.util.Map;
 /**
  * @author xwf
  */
-@Controller
+@RestController
 @RequestMapping("/report/echarts")
-public class BarController extends BaseApiService {
-
-    @Autowired
-    private EchartsFactory echartsFactory;
-
-    @GetMapping(value = "/bar")
-    public String home() {
-        return "bar";
-    }
+public class BarController extends BaseController {
 
     /**
      * BarSimple 柱状图
@@ -43,6 +35,17 @@ public class BarController extends BaseApiService {
 
     }
 
+    /**
+     * bar-Y-Category 条形图
+     */
+    @PostMapping("/barYCategory")
+    @ResponseBody
+    public ResponseBase barYCategory(HttpServletRequest request) {
+        Map<String, Object> conditionMap = QueryUtils.getParams(request);
+        AbstractBarSimple barSimple = echartsFactory.createBarSimple(conditionMap, BarSimpleImpl.class);
+        BarSimple barSimpleData = barSimple.initEchartsData();
+        return setResultSuccess(barSimpleData);
 
+    }
 
 }

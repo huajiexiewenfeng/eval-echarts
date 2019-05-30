@@ -5,6 +5,7 @@ import com.huajie.entity.ExtMapData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class BarSimpleImpl extends AbstractBarSimple {
 
     @Override
     protected List<String> getLegendList() {
-        return null;
+        return Arrays.asList("直接访问","邮件营销","联盟广告","视频广告","搜索引擎");
     }
 
     @Override

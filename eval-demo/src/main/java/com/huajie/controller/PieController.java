@@ -16,17 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
-@Controller
+@RestController
 @RequestMapping("/report/echarts")
-public class PieController extends BaseApiService {
-
-    @Autowired
-    private EchartsFactory echartsFactory;
-
-    @GetMapping(value = "/pie")
-    public String home() {
-        return "pie";
-    }
+public class PieController extends BaseController {
 
     /**
      * PieSimple 饼状图
@@ -39,6 +31,5 @@ public class PieController extends BaseApiService {
         PieSimple pieSimpleData = pieSimple.initEchartsData();
         return setResultSuccess(pieSimpleData);
     }
-
 
 }

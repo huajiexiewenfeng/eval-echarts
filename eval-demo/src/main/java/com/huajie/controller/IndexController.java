@@ -23,13 +23,31 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping
-public class IndexController extends BaseApiService {
+public class IndexController{
 
     @GetMapping(value = "/")
-    public String home() {
+    public String index() {
         return "index";
     }
 
+    @GetMapping(value = "/pie")
+    public String pie() {
+        return "pie";
+    }
 
+    @GetMapping(value = "/bar")
+    public String bar() {
+        return "bar";
+    }
+
+    @GetMapping(value = "/bar-y-category")
+    public String barYCategory() {
+        return "bar-y-category";
+    }
+
+    @GetMapping(value = "/line")
+    public String line() {
+        return "line";
+    }
 
 }

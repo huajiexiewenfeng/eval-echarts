@@ -468,10 +468,6 @@ EchartsTool.prototype = (function () {
                 },
                 tooltip: {
                     trigger: 'axis',
-                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                    },
-                    formatter: "{a} <br/>{b} : {c}%"    //{a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
                 },
                 legend: {data: legendArr},
                 grid: {
@@ -522,7 +518,7 @@ EchartsTool.prototype = (function () {
                     axisLabel: {
                         show: true,
                         interval: 'auto',
-                        formatter: '{value}%'
+                        formatter: '{value}'
                     },
                 },
                 series: seriesArr,
