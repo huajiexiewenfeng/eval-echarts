@@ -20,7 +20,7 @@ Features
 项目目录
 ----
 * eval-core -----相关实现核心代码
-* eval-demo   -----springboot简易demo 目前写了pie(饼状图)
+* eval-demo   -----springboot简易demo 代码持续更新中
 
 环境
 ----
@@ -33,3 +33,4 @@ echarts3.x
 ----
 后面会写详细的使用博客，如何扩展，如何使用
 
+![首页](https://github.com/huajiexiewenfeng/eval-echarts/blob/master/img/index.png)
