@@ -33,4 +33,5 @@ echarts3.x
 ----
 后面会写详细的使用博客，如何扩展，如何使用
 
-![首页](https://github.com/huajiexiewenfeng/eval-echarts/blob/master/img/*.png)
+![首页](https://github.com/huajiexiewenfeng/eval-echarts/blob/master/img/index.png)
+![line](https://github.com/huajiexiewenfeng/eval-echarts/blob/master/img/echarts-line.png)
