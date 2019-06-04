@@ -38,4 +38,9 @@ public class IndexController{
         return "line";
     }
 
+    @GetMapping(value = "/pie-doughnut")
+    public String pieDoughnut() {
+        return "pie-doughnut";
+    }
+
 }

@@ -2,7 +2,7 @@ var $evalNameUrl = '/dropDown/getEvalNameDropdown';
 var initControllers = (function () {
     return {
         init: function () {
-            initPie();
+            initPieDoughnut();
         }
     }
 })();
@@ -30,19 +30,14 @@ function initEvents() {
     })
 }
 
-
-function initPie() {
+function initPieDoughnut() {
     configure = {
-        id: 'pie',
+        id: 'pie-doughnut',
         url: '/report/echarts/pieSimple',
-        titleText: '某站点用户访问来源',
-        seriesName: "访问来源",
-        seriesRadius: '70%',
-        tooltipShow: true, // 不显示tooltip
+        titleText: '某站点用户访问来源'
     }
     var queryParams = function (params) {
         return BsTool.getFormData("searchFormCondition");
     }
-    EchartsTool.initPieSimple(configure, queryParams);
+    EchartsTool.initPieDoughnut(configure, queryParams);
 }
-

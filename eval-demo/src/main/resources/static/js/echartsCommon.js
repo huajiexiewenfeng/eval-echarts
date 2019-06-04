@@ -169,6 +169,85 @@ EchartsTool.prototype = (function () {
             domChart.setOption(defaultOption);
             return domChart;
         },
+        initPieDoughnut: function (conf, param) { //初始化饼状图
+            if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
+                console.warn('初始化饼状图pie-doughnut失败！');
+                return;
+            }
+            var batchResult;
+
+            param = param || {}  //没传param默认空对象
+            if (typeof param == 'function') { //如果传递参数为函数
+                param = param();  //执行函数获取对象
+            }
+            //获取数据
+            BsTool.ajaxSubmit(conf['url'], param,
+                function (res) {
+                    if (res.rtnCode == 200) { // 成功
+                        batchResult = res.data;
+                    } else {
+                        toastr.warning(res.msg); // 失败
+                        return false;
+                    }
+                })
+            var seriesData = batchResult.seriesData; // 获取seriesData数据
+            var legendData = [];
+
+            for (var op in seriesData) { //遍历传进来的seriesData
+                legendData[op] = seriesData[op].name;
+            }
+
+            var tooltipShow = true; //默认tooltip设置为显示
+            if (typeof conf['tooltipShow'] != 'undefined') {
+                tooltipShow = conf['tooltipShow'];
+            }
+            var domChart = echarts.init($("#" + conf['id'])[0]);
+            var defaultOption = {
+                title: {
+                    text: conf['titleText'],
+                    x: 'center',
+                },
+                tooltip: {
+                    show: tooltipShow,
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: legendData
+                },
+                series: [
+                    {   name:conf['seriesName']||'',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        data: seriesData,   //series的数据
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+
+                    }
+                ]
+            }
+            domChart.setOption(defaultOption);
+            return domChart;
+        },
         initBarYCategory: function (conf, param) { //初始化柱状图bar-y-category
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始化柱状图bar-y-category失败！');
