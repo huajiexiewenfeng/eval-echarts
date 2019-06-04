@@ -44,11 +44,10 @@ function initBar() {
         id: 'bar-simple',
         titleText: '',
         url: '/report/echarts/barSimple',
-        xAxisName: '', // x轴的名称
-        yAxisName: '点击量', // y轴的名称
-        yaxisLabel: {},
-        seriesName: '某站点用户访问来源', // series的名称
-        barWidth: '30',
+        xAxisName: '',
+        yAxisName: '点击量',
+        yAxisLabel: {},
+        seriesName: '某站点用户访问来源',
     }
     var queryParams = function (params) {
         return BsTool.getFormData("searchFormCondition");

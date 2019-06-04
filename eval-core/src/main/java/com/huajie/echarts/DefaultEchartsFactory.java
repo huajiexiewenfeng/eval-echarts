@@ -38,6 +38,11 @@ public class DefaultEchartsFactory extends EchartsFactory {
 	public AbstractLineStack createLineStack(Map<String, Object> parameters, Class<?> cls) {
 		return (AbstractLineStack)getBeanInstance(cls,parameters);
 	}
+
+	@Override
+	public AbstractBarYCategorySimple createBarYCategory(Map<String, Object> parameters, Class<?> cls) {
+		return (AbstractBarYCategorySimple)getBeanInstance(cls,parameters);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T getBeanInstance(Class<T> cls,Map<String, Object> parameters) throws BeansException {

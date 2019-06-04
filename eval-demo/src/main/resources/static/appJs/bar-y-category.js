@@ -36,13 +36,10 @@ function initEvents() {
 function initBar() {
     var configure = {
         id: 'bar-y-category',
-        titleText: '',
+        titleText: '世界人口总量',
         url: '/report/echarts/barYCategory',
-        xAxisName: '', // x轴的名称
-        yAxisName: '点击量', // y轴的名称
-        yaxisLabel: {},
-        seriesName: '某站点用户访问来源', // series的名称
-        barWidth: '30',
+        xAxisName: '',
+        yAxisName: '',
     }
     var queryParams = function (params) {
         return BsTool.getFormData("searchFormCondition");

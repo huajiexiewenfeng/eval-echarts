@@ -1,15 +1,14 @@
 package com.huajie.controller;
 
 
-import com.huajie.base.BaseApiService;
 import com.huajie.base.ResponseBase;
 import com.huajie.echarts.AbstractBarSimple;
-import com.huajie.echarts.EchartsFactory;
+import com.huajie.echarts.AbstractBarYCategorySimple;
 import com.huajie.entity.BarSimple;
+import com.huajie.entity.BarYCategorySimple;
 import com.huajie.service.impl.echarts.BarSimpleImpl;
+import com.huajie.service.impl.echarts.BarYCategorySimpleImpl;
 import com.huajie.utils.QueryUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +41,8 @@ public class BarController extends BaseController {
     @ResponseBody
     public ResponseBase barYCategory(HttpServletRequest request) {
         Map<String, Object> conditionMap = QueryUtils.getParams(request);
-        AbstractBarSimple barSimple = echartsFactory.createBarSimple(conditionMap, BarSimpleImpl.class);
-        BarSimple barSimpleData = barSimple.initEchartsData();
+        AbstractBarYCategorySimple barSimple = echartsFactory.createBarYCategory(conditionMap, BarYCategorySimpleImpl.class);
+        BarYCategorySimple barSimpleData = barSimple.initEchartsData();
         return setResultSuccess(barSimpleData);
 
     }

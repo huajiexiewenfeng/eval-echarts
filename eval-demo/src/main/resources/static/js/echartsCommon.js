@@ -199,62 +199,37 @@ EchartsTool.prototype = (function () {
             var legendData = batchResult.legendData; // 获取legendData数据
             var yAxisData = batchResult.yaxisData; // 获取y轴数据
 
-
             var seriesArray = [];
             for (var i = 0; i < seriesData.length; i++) { //遍历seriesData数据
                 var seriesObj = {
                     name: legendData[i],
                     type: 'bar',
                     data: seriesData[i],
-                    itemStyle: {
-                        //通常情况下：
-                        normal: {
-                            //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
-                            color: function (params) {
-                                //barColor[i]
-                                var defaultBarColor = ['#1cc09e', '#2f4553'];
-                                return defaultBarColor[params.seriesIndex % defaultBarColor.length];
-                            }
-                        },
-                        //鼠标悬停时：
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    },
                 }
                 seriesArray.push(seriesObj);
-            }
-
-
-            var defaultOption = {
-                tooltipTrigger: 'axis',
-                tooltipAxisPointerType: 'shadow',
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
             }
             var option = {
                 title: {
                     text: conf['titleText'],
-                    show: conf['titleShow']
+                    show: true
                 },
                 //提示框组件
                 tooltip: {
-                    show: tooltipShow, //显示tooltip
-                    trigger: defaultOption['tooltipTrigger'],
+                    show: true, //显示tooltip
+                    trigger: 'axis',
                     axisPointer: {
-                        type: defaultOption['tooltipAxisPointerType']
+                        type: 'shadow'
                     }
                 },
                 legend: {
                     data: legendData
                 },
-                grid: defaultOption['grid'],
+                grid:  {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
                 xAxis: {
                     type: 'value',//数值轴
                     name: conf['xAxisName'],
@@ -274,14 +249,13 @@ EchartsTool.prototype = (function () {
             domChart.setOption(option);
             return domChart;
         },
-        initBarSimple: function (conf, queryParam) { //初始化柱状图bar-simple
+        initBarSimple: function (conf, queryParam) {
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始化柱状图bar-simple失败！');
                 return;
             }
             var url = conf['url'];
             var result;
-            //获取服务端数据
             BsTool.ajaxSubmit(url, queryParam(), function (res) {
                 if (res.rtnCode == 200) { // 成功
                     result = res.data;
@@ -324,23 +298,23 @@ EchartsTool.prototype = (function () {
                         splitLine: {  //无垂直
                             show: false
                         },
-                        axisLabel: conf['yaxisLabel'] || {}
+                        axisLabel: conf['yAxisLabel'] || {}
                     }
                 ],
                 series: [{
                     name: conf['seriesName'], //series的名称
                     type: 'bar',
                     data: result.seriesData[0],
-                    barWidth: conf['barWidth'] || 30,  //设置柱状图宽度
+                    barWidth: conf['barWidth'] || 20,  //设置柱状图宽度
                     itemStyle: {
-                        //通常情况下：
-                        normal: {
-                            //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
-                            color: function (params) {
-                                var colorList = ['#1cc09e', '#2f4553'];
-                                return colorList[params.dataIndex % 2];
-                            }
-                        },
+                        // //通常情况下：
+                        // normal: {
+                        //     //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                        //     color: function (params) {
+                        //         var colorList = ['#1cc09e', '#2f4553'];
+                        //         return colorList[params.dataIndex % 2];
+                        //     }
+                        // },
                         //鼠标悬停时：
                         emphasis: {
                             shadowBlur: 10,
