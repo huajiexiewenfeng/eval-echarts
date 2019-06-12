@@ -25,6 +25,11 @@ public class DefaultEchartsFactory extends EchartsFactory {
 	}
 
 	@Override
+	public AbstractBarStack createBarStack(Map<String, Object> parameters, Class<?> cls) {
+		return (AbstractBarStack)getBeanInstance(cls,parameters);
+	}
+
+	@Override
 	public AbstractLineSimple createLineSimple(Map<String, Object> parameters, Class<?> cls) {
 		return (AbstractLineSimple)getBeanInstance(cls,parameters);
 	}
@@ -40,8 +45,8 @@ public class DefaultEchartsFactory extends EchartsFactory {
 	}
 
 	@Override
-	public AbstractBarYCategorySimple createBarYCategory(Map<String, Object> parameters, Class<?> cls) {
-		return (AbstractBarYCategorySimple)getBeanInstance(cls,parameters);
+	public AbstractBarYCategory createBarYCategory(Map<String, Object> parameters, Class<?> cls) {
+		return (AbstractBarYCategory)getBeanInstance(cls,parameters);
 	}
 	
 	@SuppressWarnings("unchecked")

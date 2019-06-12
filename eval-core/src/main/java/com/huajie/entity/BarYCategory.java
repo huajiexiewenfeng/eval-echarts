@@ -9,7 +9,7 @@ import java.util.List;
  * echarts普通柱状图
  */
 @Data
-public class BarYCategorySimple {
+public class BarYCategory {
 	//legend中data的数据
 	private List<String> legendData;
 	private List<String> yAxisData;

@@ -1,13 +1,14 @@
 package com.huajie.service.impl.echarts;
 
-import com.huajie.echarts.AbstractBarYCategorySimple;
+import com.huajie.echarts.AbstractBarYCategory;
 import com.huajie.entity.ExtMapData;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class BarYCategorySimpleImpl extends AbstractBarYCategorySimple {
+public class BarYCategoryImpl extends AbstractBarYCategory {
+
     @Override
     protected List<String> getLegendList() {
         return Arrays.asList("2011年","2012年");

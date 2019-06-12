@@ -4,7 +4,8 @@ var initControllers = (function () {
     return {
         init: function () {
             // 柱状图
-            initBar();
+            initBarSimple();
+            initBarStack();
             // 柱状图
             // initSimpleBar();
             // 初始化折线
@@ -39,7 +40,7 @@ function initEvents() {
 
 
 
-function initBar() {
+function initBarSimple() {
     var configure = {
         id: 'bar-simple',
         titleText: '',
@@ -53,4 +54,18 @@ function initBar() {
         return BsTool.getFormData("searchFormCondition");
     }
     EchartsTool.initBarSimple(configure, queryParams);
+}
+
+function initBarStack() {
+    var configure = {
+        id: 'bar-stack',
+        titleText: '某地区蒸发量和降水量',
+        url: '/report/echarts/barStack',
+        xAxisName: '',
+        yAxisName: '',
+    }
+    var queryParams = function (params) {
+        return BsTool.getFormData("searchFormCondition");
+    }
+    EchartsTool.initBarStack(configure, queryParams);
 }

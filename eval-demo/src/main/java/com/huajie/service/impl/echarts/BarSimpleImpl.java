@@ -18,7 +18,7 @@ public class BarSimpleImpl extends AbstractBarSimple {
     }
 
     @Override
-    protected List<ExtMapData<String, String>> ListXYAxis() {
+    protected List<ExtMapData<String, String>> getSeriesData() {
         List<ExtMapData<String, String>> list = new ArrayList();
         list.add(new ExtMapData("直接访问", "335"));
         list.add(new ExtMapData("邮件营销", "310"));

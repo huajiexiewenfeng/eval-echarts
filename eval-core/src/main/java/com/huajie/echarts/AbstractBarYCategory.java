@@ -1,7 +1,6 @@
 package com.huajie.echarts;
 
-import com.huajie.entity.BarSimple;
-import com.huajie.entity.BarYCategorySimple;
+import com.huajie.entity.BarYCategory;
 import com.huajie.entity.ExtMapData;
 
 import java.util.ArrayList;
@@ -14,14 +13,14 @@ import java.util.stream.Collectors;
  * 封装后台echarts 图表数据组合
  * BarSimple柱状图
  */
-public abstract class AbstractBarYCategorySimple extends BsaeEchartsBean<BarYCategorySimple> {
+public abstract class AbstractBarYCategory extends BsaeEchartsBean<BarYCategory> {
 
     protected abstract List<String> getLegendList();
 
     protected abstract Map<String, List<ExtMapData<String, String>>> getSeriesData();
 
-    public BarYCategorySimple initEchartsData() {
-        BarYCategorySimple barYCategorySimple = new BarYCategorySimple();
+    public BarYCategory initEchartsData() {
+        BarYCategory barYCategorySimple = new BarYCategory();
         List<String> legendList = getLegendList();
         Map<String, List<ExtMapData<String, String>>> mapSeriesData = getSeriesData();
         List<String> yAxisDataList = new ArrayList<>();

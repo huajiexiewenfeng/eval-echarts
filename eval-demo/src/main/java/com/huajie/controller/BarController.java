@@ -3,11 +3,14 @@ package com.huajie.controller;
 
 import com.huajie.base.ResponseBase;
 import com.huajie.echarts.AbstractBarSimple;
-import com.huajie.echarts.AbstractBarYCategorySimple;
+import com.huajie.echarts.AbstractBarStack;
+import com.huajie.echarts.AbstractBarYCategory;
 import com.huajie.entity.BarSimple;
-import com.huajie.entity.BarYCategorySimple;
+import com.huajie.entity.BarStack;
+import com.huajie.entity.BarYCategory;
 import com.huajie.service.impl.echarts.BarSimpleImpl;
-import com.huajie.service.impl.echarts.BarYCategorySimpleImpl;
+import com.huajie.service.impl.echarts.BarStackImpl;
+import com.huajie.service.impl.echarts.BarYCategoryImpl;
 import com.huajie.utils.QueryUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +34,6 @@ public class BarController extends BaseController {
         AbstractBarSimple barSimple = echartsFactory.createBarSimple(conditionMap, BarSimpleImpl.class);
         BarSimple barSimpleData = barSimple.initEchartsData();
         return setResultSuccess(barSimpleData);
-
     }
 
     /**
@@ -41,10 +43,21 @@ public class BarController extends BaseController {
     @ResponseBody
     public ResponseBase barYCategory(HttpServletRequest request) {
         Map<String, Object> conditionMap = QueryUtils.getParams(request);
-        AbstractBarYCategorySimple barSimple = echartsFactory.createBarYCategory(conditionMap, BarYCategorySimpleImpl.class);
-        BarYCategorySimple barSimpleData = barSimple.initEchartsData();
+        AbstractBarYCategory barSimple = echartsFactory.createBarYCategory(conditionMap, BarYCategoryImpl.class);
+        BarYCategory barSimpleData = barSimple.initEchartsData();
         return setResultSuccess(barSimpleData);
+    }
 
+    /**
+     * barStack 多对象柱状图
+     */
+    @PostMapping("/barStack")
+    @ResponseBody
+    public ResponseBase barStack(HttpServletRequest request) {
+        Map<String, Object> conditionMap = QueryUtils.getParams(request);
+        AbstractBarStack barStack = echartsFactory.createBarStack(conditionMap, BarStackImpl.class);
+        BarStack barStackData = barStack.initEchartsData();
+        return setResultSuccess(barStackData);
     }
 
 }

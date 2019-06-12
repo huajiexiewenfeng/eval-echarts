@@ -410,6 +410,107 @@ EchartsTool.prototype = (function () {
             domChart.setOption(option);
             return domChart;
         },
+        initBarStack: function (conf, param) {
+            if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
+                console.warn('初始化柱状图bar-stack失败！');
+                return;
+            }
+            var batchResult;
+            param = param || {}  //没传param默认空对象
+            if (typeof param == 'function') { //如果传递参数为函数
+                param = param();  //执行函数获取对象
+            }
+            //获取数据
+            BsTool.ajaxSubmit(conf['url'], param,
+                function (res) {
+                    if (res.rtnCode == 200) { // 成功
+                        batchResult = res.data;
+                    } else {
+                        toastr.warning(res.msg); // 失败
+                        return false;
+                    }
+                })
+            var seriesData = batchResult.seriesData; // 获取seriesData数据
+            var legendData = batchResult.legendData; // 获取legendData数据
+            var xAxisData = batchResult.xaxisData; // 获取y轴数据
+
+            var seriesArray = [];
+            for (var i = 0; i < seriesData.length; i++) { //遍历seriesData数据
+                var seriesObj = {
+                    name: legendData[i],
+                    type: 'bar',
+                    data: seriesData[i],
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                }
+                seriesArray.push(seriesObj);
+            }
+
+            var xAxisName = conf['xAxisName'] || '';  //x轴名称
+            var yAxisName = conf['yAxisName'] || '';  //y轴名称
+            var option = {
+                title: {
+                    text: conf['titleText']
+                },
+                animation: false, //不设置开场动画
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter: conf['tooltipFormatter'] || "{a} <br/>{b} : {c}"    //{a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                legend: {
+                    data: legendData
+                },
+                xAxis: {
+                    type: 'category',
+                    name: xAxisName,
+                    data: xAxisData
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: yAxisName,
+                        splitLine: {  //无垂直
+                            show: false
+                        },
+                        axisLabel: conf['yAxisLabel'] || {}
+                    }
+                ],
+                series: seriesArray
+            };
+            //获取div对象
+            var dom = $("#" + conf['id'])[0];
+            var domChart = echarts.init(dom);
+            // 使用刚指定的配置项和数据显示图表。
+            domChart.setOption(option);
+            return domChart;
+        },
         initLineSimple: function (conf, param) { //初始化折线
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始化折线图line-smooth失败！');
