@@ -2,18 +2,17 @@
  * echarts 封装工具 js
  */
 var EchartsTool = EchartsTool || {};
+var $theme = 'eval';
 EchartsTool.prototype = (function () {
     return {
+        setTheme: function (themeName) {
+            $theme = themeName;
+        },
         initPieRichText: function (conf, param) { //初始化饼状图
             if (!(typeof conf == 'object' && 'id' in conf && 'seriesData' in conf)) {
                 console.warn('初始化饼状图失败！');
                 return;
             }
-            /*   if (typeof conf == 'object') {
-                  for (var op in conf) {
-                      defaultOption[op] = conf[op];
-                  }
-              }*/
 
             var legendData = [];
             //var defaultPieColor = ['#7b86de','#7bcbde','#ab7bde','#7bdead'];
@@ -28,7 +27,7 @@ EchartsTool.prototype = (function () {
             if (typeof conf['tooltipShow'] != 'undefined') {
                 tooltipShow = conf['tooltipShow'];
             }
-            var domChart = echarts.init($("#" + conf['id'])[0]); //饼状图dom
+            var domChart = echarts.init($("#" + conf['id'])[0], $theme);
             var defaultOption = {
                 title: {
                     text: conf['titleText'],
@@ -93,95 +92,71 @@ EchartsTool.prototype = (function () {
             domChart.setOption(defaultOption);
             return domChart;
         },
-        initPieSimple: function (conf, param) { //初始化饼状图
-            if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
-                console.warn('初始化饼状图pie-simple失败！');
-                return;
+        initPieSimple: function (conf, param) {
+            var flag = checkConf(conf, '饼状图pie-simple');
+            if (!flag) {
+                return
             }
-            var result = getResult(conf,param);
-
-            var seriesData = result.seriesData; // 获取seriesData数据
+            var result = getResult(conf, param);
+            var seriesData = result.seriesData;
             var legendData = [];
-            for (var op in seriesData) { //遍历传进来的seriesData
+            for (var op in seriesData) {
                 legendData[op] = seriesData[op].name;
             }
-
-            var tooltipShow = true; //默认tooltip设置为显示
-            if (typeof conf['tooltipShow'] != 'undefined') {
-                tooltipShow = conf['tooltipShow'];
-            }
-            var domChart = echarts.init($("#" + conf['id'])[0]); //饼状图dom
-            var defaultOption = {
+            var option = {
                 title: {
                     text: conf['titleText'],
                     x: 'center',
                 },
-                tooltip: {  //默认的提示语句
-                    show: tooltipShow, //显示tooltip
+                tooltip: {
+                    show: conf['tooltipShow'] || true,
                     trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
                 },
                 legend: {
                     orient: 'vertical',
                     left: 'left',
-                    data: legendData     //数组
+                    data: legendData
                 },
                 series: [
                     {
                         name: conf['seriesName'] || '',
                         type: 'pie',
-                        radius: conf['seriesRadius'] || '35%',//series的radius
+                        radius: conf['seriesRadius'] || '35%',
                         center: ['50%', '50%'],
-                        data: seriesData,   //series的数据
+                        data: seriesData,
                         itemStyle: {
                             emphasis: {
                                 shadowBlur: 10,
                                 shadowOffsetX: 0,
                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
                             }
-                            /*normal:{
-                    　　　　　　　　　　　　//每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
-                                        color: function (params){
-                                            //barColor[i]
-                                            var defaultBarColor = ['#1cc09e','#2f4553'];
-                                            return defaultBarColor[params.dataIndex%defaultBarColor.length];
-                                        }
-                             }*/
                         }
                     }
                 ]
-                // color :conf['colorData']
             }
-            domChart.setOption(defaultOption);
-            return domChart;
+            return setOption(conf, option);
         },
         initPieDoughnut: function (conf, param) { //初始化饼状图
-            if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
-                console.warn('初始化饼状图pie-doughnut失败！');
-                return;
+            var flag = checkConf(conf, '环形图pie-doughnut');
+            if (!flag) {
+                return
             }
-            var result = getResult(conf,param)
-            var seriesData = result.seriesData; // 获取seriesData数据
+            var result = getResult(conf, param)
+            var seriesData = result.seriesData;
             var legendData = [];
 
-            for (var op in seriesData) { //遍历传进来的seriesData
+            for (var op in seriesData) {
                 legendData[op] = seriesData[op].name;
             }
 
-            var tooltipShow = true; //默认tooltip设置为显示
-            if (typeof conf['tooltipShow'] != 'undefined') {
-                tooltipShow = conf['tooltipShow'];
-            }
-            var domChart = echarts.init($("#" + conf['id'])[0]);
-            var defaultOption = {
+            var option = {
                 title: {
                     text: conf['titleText'],
                     x: 'center',
                 },
                 tooltip: {
-                    show: tooltipShow,
+                    show: conf['tooltipShow']||true,
                     trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
                 },
                 legend: {
                     orient: 'vertical',
@@ -217,20 +192,14 @@ EchartsTool.prototype = (function () {
                     }
                 ]
             }
-            domChart.setOption(defaultOption);
-            return domChart;
+            return setOption(conf,option);
         },
         initBarYCategory: function (conf, param) { //初始化柱状图bar-y-category
-            if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
-                console.warn('初始化柱状图bar-y-category失败！');
-                return;
+            var flag = checkConf(conf, '条形图bar-y-category');
+            if (!flag) {
+                return
             }
-
-            var tooltipShow = true; //默认tooltip设置为显示
-            if (typeof conf['tooltipShow'] != 'undefined') {
-                tooltipShow = conf['tooltipShow'];
-            }
-            var result =getResult(conf,param)
+            var result = getResult(conf, param)
 
             var seriesData = result.seriesData; // 获取seriesData数据
             var legendData = result.legendData; // 获取legendData数据
@@ -252,7 +221,7 @@ EchartsTool.prototype = (function () {
                 },
                 //提示框组件
                 tooltip: {
-                    show: true, //显示tooltip
+                    show: conf['tooltipShow']||true,
                     trigger: 'axis',
                     axisPointer: {
                         type: 'shadow'
@@ -268,30 +237,25 @@ EchartsTool.prototype = (function () {
                     containLabel: true
                 },
                 xAxis: {
-                    type: 'value',//数值轴
+                    type: 'value',
                     name: conf['xAxisName'],
-                    boundaryGap: [0, 0.01]//x 轴所在的 grid 的索引，默认位于第一个 grid
+                    boundaryGap: [0, 0.01]
                 },
                 yAxis: {
-                    type: 'category',//类目轴，适用于离散的类目数据
+                    type: 'category',
                     name: conf['yAxisName'],
                     data: yAxisData
                 },
                 series: seriesArray
             };
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+            return setOption(conf,option);
         },
         initBarSimple: function (conf, param) {
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始化柱状图bar-simple失败！');
                 return;
             }
-            var result = getResult(conf,param);
+            var result = getResult(conf, param);
 
             var seriesData = result.seriesData[0];
             var legendData = result.legendData;
@@ -341,15 +305,6 @@ EchartsTool.prototype = (function () {
                     data: seriesData,
                     barWidth: conf['barWidth'] || 20,  //设置柱状图宽度
                     itemStyle: {
-                        // //通常情况下：
-                        // normal: {
-                        //     //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
-                        //     color: function (params) {
-                        //         var colorList = ['#1cc09e', '#2f4553'];
-                        //         return colorList[params.dataIndex % 2];
-                        //     }
-                        // },
-                        //鼠标悬停时：
                         emphasis: {
                             shadowBlur: 10,
                             shadowOffsetX: 0,
@@ -358,19 +313,15 @@ EchartsTool.prototype = (function () {
                     },
                 }]
             };
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+
+            return setOption(conf,option);
         },
         initBarStack: function (conf, param) {
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始化柱状图bar-stack失败！');
                 return;
             }
-            var result =getResult(conf,param);
+            var result = getResult(conf, param);
 
             var seriesData = result.seriesData;
             var legendData = result.legendData;
@@ -446,12 +397,7 @@ EchartsTool.prototype = (function () {
                 ],
                 series: seriesArray
             };
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+            return setOption(conf,option);
         },
         initAreaStack: function (conf, param) {
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
@@ -472,7 +418,7 @@ EchartsTool.prototype = (function () {
                     data: seriesData[i],
                     stack: legendStackData[i].stack,
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     areaStyle: {},
                 }
                 seriesArray.push(seriesObj);
@@ -486,7 +432,7 @@ EchartsTool.prototype = (function () {
                     text: conf['titleText']
                 },
                 animation: false, //不设置开场动画
-                tooltip : {
+                tooltip: {
                     trigger: 'axis',
                     axisPointer: {
                         type: 'cross',
@@ -528,12 +474,8 @@ EchartsTool.prototype = (function () {
                 ],
                 series: seriesArray
             };
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+
+            return setOption(conf, option);
         },
         initLineSimple: function (conf, param) { //初始化折线
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
@@ -594,22 +536,15 @@ EchartsTool.prototype = (function () {
                     data: seriesData,
                     type: 'line'
                 }],
-                color: ['#25a547']
             };
-
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+            setOption(conf,option);
         },
         initLineStack: function (conf, param) { //折线图堆叠
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始折线图堆叠line-stack失败！');
                 return;
             }
-            var result = getResult(conf,param);
+            var result = getResult(conf, param);
 
             var legendStackData = result.legendStackData;
             var xAxisData = result.xaxisData;
@@ -629,7 +564,7 @@ EchartsTool.prototype = (function () {
                 legendArr.push(legendStackData[i].legend);
             }
 
-           var option = {
+            var option = {
                 title: {
                     text: conf['titleText'],
                     left: 'center'
@@ -692,13 +627,7 @@ EchartsTool.prototype = (function () {
                 series: seriesArr,
                 // color: ['#25a547']
             };
-
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+            return setOption(conf,option);
         },
         initRadar: function (conf, param) { //初始化雷达图
             if (!(typeof conf == 'object' && 'id' in conf
@@ -833,23 +762,33 @@ EchartsTool.prototype = (function () {
                 series: seriesArr
 
             };
-            //获取div对象
-            var dom = $("#" + conf['id'])[0];
-            var domChart = echarts.init(dom);
-            // 使用刚指定的配置项和数据显示图表。
-            domChart.setOption(option);
-            return domChart;
+            return setOption(conf,option);
         }
     }
-
 })();
 EchartsTool = EchartsTool.prototype;
 
+function checkConf(conf, name) {
+    if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
+        console.warn('初始化' + name + '失败！');
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function setOption(conf, option) {
+    var dom = $("#" + conf['id'])[0];
+    var domChart = echarts.init(dom, $theme);
+    domChart.setOption(option);
+    return domChart;
+}
+
 function getResult(conf, param) {
     var result;
-    param = param || {}  //没传param默认空对象
-    if (typeof param == 'function') { //如果传递参数为函数
-        param = param();  //执行函数获取对象
+    param = param || {}
+    if (typeof param == 'function') {
+        param = param();
     }
     //获取数据
     BsTool.ajaxSubmit(conf['url'], param,

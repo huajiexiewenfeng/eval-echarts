@@ -1,25 +1,37 @@
-
-var $evalNameUrl = '/dropDown/getEvalNameDropdown';
+/**
+ * 区域图
+ */
 var initControllers = (function () {
     return {
         init: function () {
-            // 柱状图
-            // initBarSimple();
+            EchartsTool.setTheme('eval');
             initAreaStack();
-            // 柱状图
-            // initSimpleBar();
-            // 初始化折线
-            // initBrokenLine();
-            // initEvents();
         }
     }
 })();
+
+function initAreaStack() {
+    var configure = {
+        id: 'area-stack',
+        titleText: '某地区蒸发量和降水量',
+        url: '/report/echarts/areaStack',
+        xAxisName: '',
+        yAxisName: '',
+    }
+    var queryParams = function (params) {
+        return BsTool.getFormData("searchFormCondition");
+    }
+    EchartsTool.initAreaStack(configure, queryParams);
+}
 
 
 /**
  * 初始化按钮事件
  */
 function initEvents() {
+    /**
+     * 后期扩展导出pdf
+     */
     $("#btn_export").click(function () {
         html2canvas($('#mainContext')[0], {
             onrendered: function (canvas) {
@@ -36,36 +48,4 @@ function initEvents() {
             background: '#fff'
         })
     })
-}
-
-
-
-function initBarSimple() {
-    var configure = {
-        id: 'bar-simple',
-        titleText: '',
-        url: '/report/echarts/barSimple',
-        xAxisName: '',
-        yAxisName: '点击量',
-        yAxisLabel: {},
-        seriesName: '某站点用户访问来源',
-    }
-    var queryParams = function (params) {
-        return BsTool.getFormData("searchFormCondition");
-    }
-    EchartsTool.initBarSimple(configure, queryParams);
-}
-
-function initAreaStack() {
-    var configure = {
-        id: 'area-stack',
-        titleText: '某地区蒸发量和降水量',
-        url: '/report/echarts/areaStack',
-        xAxisName: '',
-        yAxisName: '',
-    }
-    var queryParams = function (params) {
-        return BsTool.getFormData("searchFormCondition");
-    }
-    EchartsTool.initAreaStack(configure, queryParams);
 }
