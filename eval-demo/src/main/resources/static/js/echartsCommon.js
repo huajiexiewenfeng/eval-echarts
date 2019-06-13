@@ -98,25 +98,10 @@ EchartsTool.prototype = (function () {
                 console.warn('初始化饼状图pie-simple失败！');
                 return;
             }
-            var batchResult;
+            var result = getResult(conf,param);
 
-            param = param || {}  //没传param默认空对象
-            if (typeof param == 'function') { //如果传递参数为函数
-                param = param();  //执行函数获取对象
-            }
-            //获取数据
-            BsTool.ajaxSubmit(conf['url'], param,
-                function (res) {
-                    if (res.rtnCode == 200) { // 成功
-                        batchResult = res.data;
-                    } else {
-                        toastr.warning(res.msg); // 失败
-                        return false;
-                    }
-                })
-            var seriesData = batchResult.seriesData; // 获取seriesData数据
+            var seriesData = result.seriesData; // 获取seriesData数据
             var legendData = [];
-            var pieColor = [];
             for (var op in seriesData) { //遍历传进来的seriesData
                 legendData[op] = seriesData[op].name;
             }
@@ -175,23 +160,8 @@ EchartsTool.prototype = (function () {
                 console.warn('初始化饼状图pie-doughnut失败！');
                 return;
             }
-            var batchResult;
-
-            param = param || {}  //没传param默认空对象
-            if (typeof param == 'function') { //如果传递参数为函数
-                param = param();  //执行函数获取对象
-            }
-            //获取数据
-            BsTool.ajaxSubmit(conf['url'], param,
-                function (res) {
-                    if (res.rtnCode == 200) { // 成功
-                        batchResult = res.data;
-                    } else {
-                        toastr.warning(res.msg); // 失败
-                        return false;
-                    }
-                })
-            var seriesData = batchResult.seriesData; // 获取seriesData数据
+            var result = getResult(conf,param)
+            var seriesData = result.seriesData; // 获取seriesData数据
             var legendData = [];
 
             for (var op in seriesData) { //遍历传进来的seriesData
@@ -260,25 +230,11 @@ EchartsTool.prototype = (function () {
             if (typeof conf['tooltipShow'] != 'undefined') {
                 tooltipShow = conf['tooltipShow'];
             }
-            var batchResult;
+            var result =getResult(conf,param)
 
-            param = param || {}  //没传param默认空对象
-            if (typeof param == 'function') { //如果传递参数为函数
-                param = param();  //执行函数获取对象
-            }
-            //获取数据
-            BsTool.ajaxSubmit(conf['url'], param,
-                function (res) {
-                    if (res.rtnCode == 200) { // 成功
-                        batchResult = res.data;
-                    } else {
-                        toastr.warning(res.msg); // 失败
-                        return false;
-                    }
-                })
-            var seriesData = batchResult.seriesData; // 获取seriesData数据
-            var legendData = batchResult.legendData; // 获取legendData数据
-            var yAxisData = batchResult.yaxisData; // 获取y轴数据
+            var seriesData = result.seriesData; // 获取seriesData数据
+            var legendData = result.legendData; // 获取legendData数据
+            var yAxisData = result.yaxisData; // 获取y轴数据
 
             var seriesArray = [];
             for (var i = 0; i < seriesData.length; i++) { //遍历seriesData数据
@@ -330,20 +286,17 @@ EchartsTool.prototype = (function () {
             domChart.setOption(option);
             return domChart;
         },
-        initBarSimple: function (conf, queryParam) {
+        initBarSimple: function (conf, param) {
             if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
                 console.warn('初始化柱状图bar-simple失败！');
                 return;
             }
-            var url = conf['url'];
-            var result;
-            BsTool.ajaxSubmit(url, queryParam(), function (res) {
-                if (res.rtnCode == 200) { // 成功
-                    result = res.data;
-                } else {
-                    toastr.warning(res.msg); // 失败
-                }
-            }, conf['method'] || 'post', false)
+            var result = getResult(conf,param);
+
+            var seriesData = result.seriesData[0];
+            var legendData = result.legendData;
+            var xAxisData = result.xaxisData;
+
             var xAxisName = conf['xAxisName'] || '';  //x轴名称
             var yAxisName = conf['yAxisName'] || '';  //y轴名称
             var option = {
@@ -365,12 +318,12 @@ EchartsTool.prototype = (function () {
                     containLabel: true
                 },
                 legend: {
-                    data: result.legendData
+                    data: legendData
                 },
                 xAxis: {
                     type: 'category',
                     name: xAxisName,
-                    data: result.xaxisData
+                    data: xAxisData
                 },
                 yAxis: [
                     {
@@ -385,7 +338,7 @@ EchartsTool.prototype = (function () {
                 series: [{
                     name: conf['seriesName'], //series的名称
                     type: 'bar',
-                    data: result.seriesData[0],
+                    data: seriesData,
                     barWidth: conf['barWidth'] || 20,  //设置柱状图宽度
                     itemStyle: {
                         // //通常情况下：
@@ -417,27 +370,14 @@ EchartsTool.prototype = (function () {
                 console.warn('初始化柱状图bar-stack失败！');
                 return;
             }
-            var batchResult;
-            param = param || {}  //没传param默认空对象
-            if (typeof param == 'function') { //如果传递参数为函数
-                param = param();  //执行函数获取对象
-            }
-            //获取数据
-            BsTool.ajaxSubmit(conf['url'], param,
-                function (res) {
-                    if (res.rtnCode == 200) { // 成功
-                        batchResult = res.data;
-                    } else {
-                        toastr.warning(res.msg); // 失败
-                        return false;
-                    }
-                })
-            var seriesData = batchResult.seriesData; // 获取seriesData数据
-            var legendData = batchResult.legendData; // 获取legendData数据
-            var xAxisData = batchResult.xaxisData; // 获取y轴数据
+            var result =getResult(conf,param);
+
+            var seriesData = result.seriesData;
+            var legendData = result.legendData;
+            var xAxisData = result.xaxisData;
 
             var seriesArray = [];
-            for (var i = 0; i < seriesData.length; i++) { //遍历seriesData数据
+            for (var i = 0; i < seriesData.length; i++) {
                 var seriesObj = {
                     name: legendData[i],
                     type: 'bar',
@@ -669,24 +609,14 @@ EchartsTool.prototype = (function () {
                 console.warn('初始折线图堆叠line-stack失败！');
                 return;
             }
-            var result;
-            //获取服务端数据
-            BsTool.ajaxSubmit(conf['url'], param(), function (res) {
-                if (res.rtnCode == 200) { // 成功
-                    result = res.data;
-                } else {
-                    toastr.warning(res.msg); // 失败
-                    return false;
-                }
-            }, conf['method'] || 'post', false);
+            var result = getResult(conf,param);
+
             var legendStackData = result.legendStackData;
             var xAxisData = result.xaxisData;
             var seriesData = result.seriesData;
 
             var seriesArr = []; //最后总的series数组
-
             var legendArr = [];
-
             for (var i = 0; i < legendStackData.length; i++) {
                 var seriesObj = {
                     name: legendStackData[i].legend,
@@ -699,7 +629,7 @@ EchartsTool.prototype = (function () {
                 legendArr.push(legendStackData[i].legend);
             }
 
-            option = {
+           var option = {
                 title: {
                     text: conf['titleText'],
                     left: 'center'
