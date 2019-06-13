@@ -18,4 +18,6 @@ public abstract class EchartsFactory {
 	public abstract AbstractLineStack createLineStack(Map<String, Object> parameters, Class<?> cls);
 
 	public abstract AbstractBarYCategory createBarYCategory(Map<String, Object> parameters, Class<?> cls);
+
+	public abstract AbstractAreaStack createAreaStack(Map<String, Object> parameters, Class<?> cls);
 }

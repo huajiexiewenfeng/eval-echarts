@@ -142,7 +142,8 @@ EchartsTool.prototype = (function () {
                     data: legendData     //数组
                 },
                 series: [
-                    {   name:conf['seriesName']||'',
+                    {
+                        name: conf['seriesName'] || '',
                         type: 'pie',
                         radius: conf['seriesRadius'] || '35%',//series的radius
                         center: ['50%', '50%'],
@@ -218,7 +219,8 @@ EchartsTool.prototype = (function () {
                     data: legendData
                 },
                 series: [
-                    {   name:conf['seriesName']||'',
+                    {
+                        name: conf['seriesName'] || '',
                         type: 'pie',
                         radius: ['50%', '70%'],
                         avoidLabelOverlap: false,
@@ -303,7 +305,7 @@ EchartsTool.prototype = (function () {
                 legend: {
                     data: legendData
                 },
-                grid:  {
+                grid: {
                     left: '3%',
                     right: '4%',
                     bottom: '3%',
@@ -440,15 +442,15 @@ EchartsTool.prototype = (function () {
                     name: legendData[i],
                     type: 'bar',
                     data: seriesData[i],
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
                         ]
                     },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '平均值'}
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
                         ]
                     }
                 }
@@ -470,12 +472,12 @@ EchartsTool.prototype = (function () {
                     formatter: conf['tooltipFormatter'] || "{a} <br/>{b} : {c}"    //{a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
                 },
                 toolbox: {
-                    show : true,
-                    feature : {
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
+                    show: true,
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
                     }
                 },
                 grid: {
@@ -486,6 +488,88 @@ EchartsTool.prototype = (function () {
                 },
                 legend: {
                     data: legendData
+                },
+                xAxis: {
+                    type: 'category',
+                    name: xAxisName,
+                    data: xAxisData
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: yAxisName,
+                        splitLine: {  //无垂直
+                            show: false
+                        },
+                        axisLabel: conf['yAxisLabel'] || {}
+                    }
+                ],
+                series: seriesArray
+            };
+            //获取div对象
+            var dom = $("#" + conf['id'])[0];
+            var domChart = echarts.init(dom);
+            // 使用刚指定的配置项和数据显示图表。
+            domChart.setOption(option);
+            return domChart;
+        },
+        initAreaStack: function (conf, param) {
+            if (!(typeof conf == 'object' && 'id' in conf && 'url' in conf)) {
+                console.warn('初始化区域图area-stack失败！');
+                return;
+            }
+            var res = getResult(conf, param);
+
+            var seriesData = res.seriesData; // 获取seriesData数据
+            var legendStackData = res.legendStackData; // 获取legendData数据
+            var xAxisData = res.xaxisData; // 获取y轴数据
+
+            var seriesArray = [];
+            var legendArr = [];
+            for (var i = 0; i < seriesData.length; i++) { //遍历seriesData数据
+                var seriesObj = {
+                    name: legendStackData[i].legend,
+                    data: seriesData[i],
+                    stack: legendStackData[i].stack,
+                    type: 'line',
+                    smooth:true,
+                    areaStyle: {},
+                }
+                seriesArray.push(seriesObj);
+                legendArr.push(legendStackData[i].legend);
+            }
+
+            var xAxisName = conf['xAxisName'] || '';  //x轴名称
+            var yAxisName = conf['yAxisName'] || '';  //y轴名称
+            var option = {
+                title: {
+                    text: conf['titleText']
+                },
+                animation: false, //不设置开场动画
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        saveAsImage: {show: true}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                legend: {
+                    data: legendArr
                 },
                 xAxis: {
                     type: 'category',
@@ -831,4 +915,20 @@ EchartsTool.prototype = (function () {
 })();
 EchartsTool = EchartsTool.prototype;
 
-
+function getResult(conf, param) {
+    var result;
+    param = param || {}  //没传param默认空对象
+    if (typeof param == 'function') { //如果传递参数为函数
+        param = param();  //执行函数获取对象
+    }
+    //获取数据
+    BsTool.ajaxSubmit(conf['url'], param,
+        function (res) {
+            if (res.rtnCode == 200) {
+                result = res.data;
+            } else {
+                toastr.warning(res.msg);
+            }
+        })
+    return result;
+}

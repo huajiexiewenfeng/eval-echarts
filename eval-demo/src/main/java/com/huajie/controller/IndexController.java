@@ -43,4 +43,9 @@ public class IndexController{
         return "pie-doughnut";
     }
 
+    @GetMapping(value = "/area")
+    public String area() {
+        return "area";
+    }
+
 }
