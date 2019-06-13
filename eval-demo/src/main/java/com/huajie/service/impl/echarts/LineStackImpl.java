@@ -21,7 +21,6 @@ public class LineStackImpl extends AbstractLineStack {
     @Override
     protected Map<String, List<ExtMapData<String, String>>> ListSeriesData() {
         Map<String, List<ExtMapData<String, String>>> map = new HashMap<>();
-        //查询该年度所有批次 的优秀率 和 合格率
         List<ExtMapData<String, String>> list1 = Arrays.asList(new ExtMapData("周一", "120"), new ExtMapData("周二", "132"), new ExtMapData("周三", "101"), new ExtMapData("周四", "152"), new ExtMapData("周五", "220"), new ExtMapData("周六", "212"), new ExtMapData("周日", "300"));
         List<ExtMapData<String, String>> list2 = Arrays.asList(new ExtMapData("周一", "220"), new ExtMapData("周二", "112"), new ExtMapData("周三", "111"), new ExtMapData("周四", "112"), new ExtMapData("周五", "210"), new ExtMapData("周六", "112"), new ExtMapData("周日", "200"));
         List<ExtMapData<String, String>> list3 = Arrays.asList(new ExtMapData("周一", "100"), new ExtMapData("周二", "102"), new ExtMapData("周三", "101"), new ExtMapData("周四", "152"), new ExtMapData("周五", "120"), new ExtMapData("周六", "112"), new ExtMapData("周日", "100"));
