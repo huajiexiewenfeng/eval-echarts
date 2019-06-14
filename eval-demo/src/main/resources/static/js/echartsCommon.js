@@ -404,11 +404,11 @@ EchartsTool.prototype = (function () {
                 console.warn('初始化区域图area-stack失败！');
                 return;
             }
-            var res = getResult(conf, param);
+            var result = getResult(conf, param);
 
-            var seriesData = res.seriesData; // 获取seriesData数据
-            var legendStackData = res.legendStackData; // 获取legendData数据
-            var xAxisData = res.xaxisData; // 获取y轴数据
+            var seriesData = result.seriesData; // 获取seriesData数据
+            var legendStackData = result.legendStackData; // 获取legendData数据
+            var xAxisData = result.xaxisData; // 获取y轴数据
 
             var seriesArray = [];
             var legendArr = [];
@@ -482,21 +482,10 @@ EchartsTool.prototype = (function () {
                 console.warn('初始化折线图line-smooth失败！');
                 return;
             }
-            var url = conf['url']; //请求url
-            var result;
-            //获取服务端数据
-            BsTool.ajaxSubmit(url, param(), function (res) {
-                if (res.rtnCode == 200) { // 成功
-                    result = res.data;
-                } else {
-                    toastr.warning(res.msg); // 失败
-                    return false;
-                }
-            });
+            var result=getResult(conf,param)
             var xAxisData = result.xaxisData;
             var seriesData = result.seriesData;
-
-            option = {
+            var option = {
                 title: {
                     text: conf['titleText'],
                     left: 'center'
