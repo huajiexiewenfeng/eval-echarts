@@ -32,7 +32,7 @@ public abstract class AbstractAreaStack extends BsaeEchartsBean<AreaStack> {
 			if (yAxisDataList.size() == 0) {
 				yAxisDataList = extMapData.stream().map(ExtMapData::getName).collect(Collectors.toList());
 			}
-			serieDataList = extMapData.stream().map(ExtMapData::getValue).collect(Collectors.toList());
+			serieDataList = extMapData.stream().map(data->String.valueOf(data.getValue())).collect(Collectors.toList());
 			serieDataListSum.add(serieDataList);
 		}
 		areaStack.setLegendStackData(legendList);
